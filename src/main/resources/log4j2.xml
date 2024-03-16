@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="Mailer"
+    packages="org.apache.logging.log4j.core.appender" status="warn">
+    <Appenders>
+        <RollingFile name="RollingFile" fileName="/home/ubuntu/owclogs/today-microservice-config.log"
+            filePattern="/home/ubuntu/owclogs/$${date:yyyy-MM-dd}/app-%d{yyyy-MM-dd-HH}-%i.log.rest.gz">            <PatternLayout>
+                <Pattern>%d{dd-MM-yyyy HH:mm:ss} : %p : %L : %c{1} : %M : %NDC :
+                     %m%n
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="24"
+                    modulate="true" />
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+			 </Policies>
+			 <DefaultRolloverStrategy max="50"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- logger to send mail on (at least) info level events -->
+        <Root level="INFO">
+            <AppenderRef ref="RollingFile" />
+            <!-- <appender-ref ref="AsyncMailer" /> -->
+        </Root>
+        <Logger name="com.rpl" level="DEBUG" additivity="false">
+            <AppenderRef ref="RollingFile" />
+        </Logger>
+    </Loggers>
+</Configuration> 
